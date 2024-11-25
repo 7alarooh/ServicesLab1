@@ -40,27 +40,26 @@ namespace ServicesLab1
 
             BankAccount BA = new BankAccount(); 
             bankAccountService.AddAccount(new BankAccount { AccountNumber = "123456789", Balance = 1000, UserId = user.Id });
-
-
-
-
-
-
-
-
-           
-
-
             Console.WriteLine($"Balance after deposit: {bankAccountService.BalanceInquiry(1)}");
-
-
-
-
-
-
 
             bankAccountService.Withdraw(1, 300);
             Console.WriteLine($"Balance after withdrawal: {bankAccountService.BalanceInquiry(1)}");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //bankAccountService.DeleteAccount(1);
             //userService.DeleteUser(user.Id);
