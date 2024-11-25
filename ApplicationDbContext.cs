@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ServicesLab1
 {
     public class ApplicationDbContext:DbContext
@@ -17,6 +16,7 @@ namespace ServicesLab1
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<BankAccount> BankAccounts { get; set; }    
+        public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
     }
 }
