@@ -9,6 +9,7 @@ namespace ServicesLab1.Models
 {
     public class Transaction
     {
+        [Key]
         public int Id { get; set; }
 
         [Required]
