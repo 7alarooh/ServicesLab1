@@ -6,17 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace ServicesLab1.Services
 {
     public class BankAccountService : IBankAccountService
     {
-        private readonly ApplicationDbContext _context;
         private readonly IBankAccountRepository _bankAccountRepository;
-
-        public BankAccountService(IBankAccountRepository bankAccountRepository)
+        private readonly ITransactionRepository _transactionRepository;
+        private readonly ApplicationDbContext _context;
+        public BankAccountService(IBankAccountRepository bankAccountRepository, ITransactionRepository transactionRepository, ApplicationDbContext context)
         {
             _bankAccountRepository = bankAccountRepository;
+            _transactionRepository = transactionRepository;
+            _context = context; 
         }
 
         public IEnumerable<BankAccount> GetAllAccounts()
@@ -72,7 +73,7 @@ namespace ServicesLab1.Services
                 };
 
                 // Add the transaction to the database
-                _context.Transactions.Add(transaction);  // Add the transaction
+                _transactionRepository.Add(transaction);  // Add the transaction
                 _context.SaveChanges();  // Save changes
 
                 // Update the account balance
@@ -102,7 +103,7 @@ namespace ServicesLab1.Services
                     };
 
                     // Add the transaction to the database
-                    _context.Transactions.Add(transaction);  // Add the transaction
+                    _transactionRepository.Add(transaction);  // Add the transaction
                     _context.SaveChanges();  // Save changes
 
                     // Update the account balance
@@ -155,6 +156,10 @@ namespace ServicesLab1.Services
 
         }
 
-       
+        public void AddTransaction(Transaction transaction)
+        {
+            _transactionRepository.Add(transaction);
+            _context.SaveChanges(); // Save changes here
+        }
     }
 }

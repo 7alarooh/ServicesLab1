@@ -17,6 +17,7 @@ namespace ServicesLab1
 
             var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
             var bankAccountService = scope.ServiceProvider.GetRequiredService<IBankAccountService>();
+            var transactionRepository = scope.ServiceProvider.GetRequiredService<IRepository<Transaction>>();
 
             // Example operations
 
@@ -40,30 +41,34 @@ namespace ServicesLab1
 
             BankAccount BA = new BankAccount(); 
             bankAccountService.AddAccount(new BankAccount { AccountNumber = "123456789", Balance = 1000, UserId = user.Id });
+            // Create a new transaction
+            var transaction = new Transaction
+            {
+                SourceAccNumber = "123456789",
+                Operation = "Deposit",
+                Amount = 1000,
+                BankAccountId = BA.Id
+            };
+            // Add the transaction to the database using the repository
+            transactionRepository.Add(transaction);
+            Console.WriteLine($"Transaction added: {transaction.Operation} - {transaction.Amount}");
+
             Console.WriteLine($"Balance after deposit: {bankAccountService.BalanceInquiry(1)}");
 
             bankAccountService.Withdraw(1, 300);
             Console.WriteLine($"Balance after withdrawal: {bankAccountService.BalanceInquiry(1)}");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // Retrieve and display all transactions
+            var transactions = transactionRepository.GetAll();
+            foreach (var t in transactions)
+            {
+                Console.WriteLine($"Transaction {t.Id}: {t.Operation} of {t.Amount}");
+            }
 
             //bankAccountService.DeleteAccount(1);
             //userService.DeleteUser(user.Id);
         }
+
 
         //public string Withdraw()
         //{
@@ -88,6 +93,7 @@ namespace ServicesLab1
             services.AddDbContext<ApplicationDbContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
+            services.AddScoped<IRepository<Transaction>, TransactionRepository>(); // Register the TransactionRepository
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBankAccountService, BankAccountService>();
 
