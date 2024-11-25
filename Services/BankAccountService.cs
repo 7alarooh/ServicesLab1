@@ -11,6 +11,7 @@ namespace ServicesLab1.Services
 {
     public class BankAccountService : IBankAccountService
     {
+        private readonly ApplicationDbContext _context;
         private readonly IBankAccountRepository _bankAccountRepository;
 
         public BankAccountService(IBankAccountRepository bankAccountRepository)
@@ -61,6 +62,20 @@ namespace ServicesLab1.Services
             var account = _bankAccountRepository.GetAccountById(accountId);
             if (account != null)
             {
+                // Create a new transaction
+                var transaction = new Transaction
+                {
+                    SourceAccNumber = account.AccountNumber,
+                    Operation = "Deposit",
+                    Amount = amount,
+                    BankAccountId = account.Id
+                };
+
+                // Add the transaction to the database
+                _context.Transactions.Add(transaction);  // Add the transaction
+                _context.SaveChanges();  // Save changes
+
+                // Update the account balance
                 account.Balance += amount;
                 _bankAccountRepository.UpdateAccount(account);
             }
@@ -77,6 +92,20 @@ namespace ServicesLab1.Services
             {
                 if (account.Balance >= amount)
                 {
+                    // Create a new transaction
+                    var transaction = new Transaction
+                    {
+                        SourceAccNumber = account.AccountNumber,
+                        Operation = "Withdraw",
+                        Amount = amount,
+                        BankAccountId = account.Id
+                    };
+
+                    // Add the transaction to the database
+                    _context.Transactions.Add(transaction);  // Add the transaction
+                    _context.SaveChanges();  // Save changes
+
+                    // Update the account balance
                     account.Balance -= amount;
                     _bankAccountRepository.UpdateAccount(account);
                 }
@@ -126,6 +155,6 @@ namespace ServicesLab1.Services
 
         }
 
-
+       
     }
 }
