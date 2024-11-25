@@ -13,12 +13,16 @@ namespace ServicesLab1.Services
         private readonly IBankAccountRepository _bankAccountRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly ApplicationDbContext _context;
-        public BankAccountService(IBankAccountRepository bankAccountRepository, ITransactionRepository transactionRepository, ApplicationDbContext context)
+        private readonly ITransactionService _transactionService;
+        public BankAccountService(IBankAccountRepository bankAccountRepository,
+                              ITransactionRepository transactionRepository,
+                              ApplicationDbContext context,
+                              ITransactionService transactionService)
         {
             _bankAccountRepository = bankAccountRepository;
             _transactionRepository = transactionRepository;
-            _context = context; 
-        }
+            _context = context;
+            _transactionService = transactionService;  }
 
         public IEnumerable<BankAccount> GetAllAccounts()
         {
@@ -158,8 +162,7 @@ namespace ServicesLab1.Services
 
         public void AddTransaction(Transaction transaction)
         {
-            _transactionRepository.Add(transaction);
-            _context.SaveChanges(); // Save changes here
+            _transactionService.AddTransaction(transaction);
         }
     }
 }

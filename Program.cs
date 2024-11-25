@@ -96,6 +96,7 @@ namespace ServicesLab1
             services.AddScoped<IRepository<Transaction>, TransactionRepository>(); // Register the TransactionRepository
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBankAccountService, BankAccountService>();
+            services.AddScoped<ITransactionService, TransactionService>(); // Register TransactionService
 
             return services.BuildServiceProvider();
         }

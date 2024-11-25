@@ -36,7 +36,10 @@ namespace ServicesLab1.Repositories
             _context.Transactions.Update(entity);
             _context.SaveChanges();
         }
-
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
         public void Delete(int id)
         {
             var transaction = _context.Transactions.Find(id);

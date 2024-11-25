@@ -4,6 +4,7 @@ namespace ServicesLab1.Repositories
 {
     public interface ITransactionRepository
     {
+        void SaveChanges();
         void Add(Transaction entity);
         void Delete(int id);
         IEnumerable<Transaction> GetAll();
