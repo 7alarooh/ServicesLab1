@@ -70,10 +70,10 @@ namespace ServicesLab1.Services
                 // Create a new transaction
                 var transaction = new Transaction
                 {
-                    SourceAccNumber = account.AccountNumber,
-                    Operation = "Deposit",
-                    Amount = amount,
-                    BankAccountId = account.Id
+                    //SourceAccNumber = account.AccountNumber,
+                    //Operation = "Deposit",
+                    //Amount = amount,
+                    //BankAccountId = account.Id
                 };
 
                 // Add the transaction to the database
@@ -100,10 +100,10 @@ namespace ServicesLab1.Services
                     // Create a new transaction
                     var transaction = new Transaction
                     {
-                        SourceAccNumber = account.AccountNumber,
-                        Operation = "Withdraw",
-                        Amount = amount,
-                        BankAccountId = account.Id
+                        //SourceAccNumber = account.AccountNumber,
+                        //Operation = "Withdraw",
+                        //Amount = amount,
+                        //BankAccountId = account.Id
                     };
 
                     // Add the transaction to the database
